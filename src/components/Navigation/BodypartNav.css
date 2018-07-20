@@ -1,0 +1,14 @@
+.bodypartUl {
+    list-style-type: none;
+  }
+
+@media(min-width: 600px) {
+    .bodypartNav {
+      display: flex;
+      border: 1px solid black;
+    }
+    .bodypartUl {
+      border: 1px solid black;
+      margin: 0 auto;
+    }
+  }
