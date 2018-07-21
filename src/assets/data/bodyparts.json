@@ -1,0 +1,19 @@
+
+[
+    {
+        "key":1,
+        "name":"Arm"
+    }, 
+    {
+        "key":2,
+        "name":"Breast"
+    },
+    {
+        "key":3,
+        "name":"Back"
+    },
+    {
+        "key":4,
+        "name":"Leg"
+    }
+]

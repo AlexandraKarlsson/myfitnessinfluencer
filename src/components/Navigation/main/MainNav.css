@@ -1,0 +1,14 @@
+.mainNavUl {
+    list-style-type: none;
+  }
+
+@media(min-width: 600px) {
+    .mainNav {
+      display: flex;
+      border: 1px solid black;
+    }
+    .mainNavUl {
+      border: 1px solid black;
+      margin: 0 auto;
+    }
+  }
