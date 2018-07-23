@@ -1,19 +1,19 @@
 
 [
     {
-        "key":1,
+        "id":1,
         "name":"Arm"
     }, 
     {
-        "key":2,
+        "id":2,
         "name":"Breast"
     },
     {
-        "key":3,
+        "id":3,
         "name":"Back"
     },
     {
-        "key":4,
+        "id":4,
         "name":"Leg"
     }
 ]

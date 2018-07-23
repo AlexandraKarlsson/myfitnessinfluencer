@@ -1,7 +1,8 @@
 [
     {
+        "id": 1,
         "name": "Bicep curl",
-        "img-name": "img1",
+        "imgName": "bicepCurl.jpg",
         "description": "description1",
         "steps": [
             "step1",
@@ -11,12 +12,30 @@
         "movers": [
             "mover1",
             "mover2"
-        ]
+        ], 
+        "bodypartId": 1
+    },
+    {
+        "id": 2,
+        "name": "Tricep Press",
+        "imgName": "tricepPress.jpg",
+        "description": "description1",
+        "steps": [
+            "step1",
+            "step2",
+            "step3"
+        ],
+        "movers": [
+            "mover1",
+            "mover2"
+        ], 
+        "bodypartId": 1
     },
 
     {
-        "name": "Squat",
-        "img-name": "img2",
+        "id": 11,
+        "name": "Bench press",
+        "imgName": "benchPress.png",
         "description": "description2",
         "steps": [
             "step1",
@@ -26,6 +45,90 @@
         "movers": [
             "mover1",
             "mover2"
-        ]
+        ], 
+        "bodypartId": 2
+    },
+    {
+        "id": 12,
+        "name": "Push Up",
+        "imgName": "pushUp.png",
+        "description": "description1",
+        "steps": [
+            "step1",
+            "step2",
+            "step3"
+        ],
+        "movers": [
+            "mover1",
+            "mover2"
+        ], 
+        "bodypartId": 2
+    },
+
+    {
+        "id": 21,
+        "name": "Chins",
+        "imgName": "chins.png",
+        "description": "description2",
+        "steps": [
+            "step1",
+            "step2",
+            "step3"
+        ],
+        "movers": [
+            "mover1",
+            "mover2"
+        ], 
+        "bodypartId": 3
+    },
+    {
+        "id": 22,
+        "name": "Barebell Row",
+        "imgName": "barebellRow.png",
+        "description": "description2",
+        "steps": [
+            "step1",
+            "step2",
+            "step3"
+        ],
+        "movers": [
+            "mover1",
+            "mover2"
+        ], 
+        "bodypartId": 3
+    },
+
+    {
+        "id": 31,
+        "name": "Squat",
+        "imgName": "squat.png",
+        "description": "description2",
+        "steps": [
+            "step1",
+            "step2",
+            "step3"
+        ],
+        "movers": [
+            "mover1",
+            "mover2"
+        ], 
+        "bodypartId": 4
+    },
+
+    {
+        "id": 32,
+        "name": "Lunges",
+        "imgName": "lunges.png",
+        "description": "description2",
+        "steps": [
+            "step1",
+            "step2",
+            "step3"
+        ],
+        "movers": [
+            "mover1",
+            "mover2"
+        ], 
+        "bodypartId": 4
     }
 ]
