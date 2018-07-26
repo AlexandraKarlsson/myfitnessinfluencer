@@ -3,7 +3,9 @@ import './BodypartItem.css';
 
 const bodypartItem = (props) => {
     return(
-        <li className="bodypartLi" onClick={props.onclick}><a className="bodypartA" href="">{props.name}</a></li>
+        <li className="bodypartLi">
+            <input type="button" onClick={props.clicked} value={props.name}/>
+        </li>
     );
 }
 

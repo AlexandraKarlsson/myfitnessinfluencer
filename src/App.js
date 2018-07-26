@@ -32,6 +32,7 @@ class App extends Component {
       }
     ],
     bodyparts : bodyparts,
+    currentBodypart : 1,
     exercises : exercises,
     currentExercises : null,
     currentWorkout : null
@@ -40,8 +41,7 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    this.state.currentExercises = this.getExercises(1);
-    console.log(this.state.currentExercises);
+    this.state.currentExercises = this.getExercises(this.state.currentBodypart);
   }
 
   getExercises = (bodypartId) => {
@@ -58,11 +58,25 @@ class App extends Component {
   }
 
   bodypartNavHandler = (bodypartIndex) => {
-    /*if(this.state.currentBodypart !== bodypartIndex) {
-        const currentExercises = this.state.exercises[bodypartIndex];
-        this.setState({currentBodypart: bodypartIndex, currentExercises: currentExercises})
-    }*/
+    console.log('currentBodypart',this.state.currentBodypart);
+    console.log('bodypartIndex',bodypartIndex);
+
+    //check if selected bodypart is not the same as currentbodypart
+    //change currentExercises to the selected bodypart
+    const bodypartId = bodypartIndex+1;
+
+    if(this.state.currentBodypart !== bodypartId) {
+      const currentExercises = this.getExercises(bodypartId);
+      console.log(currentExercises);
+      this.setState({currentBodypart : bodypartId, currentExercises : currentExercises});
+    }
   }
+
+  exerciseHandler = (exerciseId) => {
+
+  }
+
+
 
 
   render() {

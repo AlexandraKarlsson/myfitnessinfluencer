@@ -35,7 +35,7 @@
     {
         "id": 11,
         "name": "Bench press",
-        "imgName": "benchPress.png",
+        "imgName": "benchPress.jpg",
         "description": "description2",
         "steps": [
             "step1",
@@ -51,7 +51,7 @@
     {
         "id": 12,
         "name": "Push Up",
-        "imgName": "pushUp.png",
+        "imgName": "pushUp.jpg",
         "description": "description1",
         "steps": [
             "step1",
@@ -68,7 +68,7 @@
     {
         "id": 21,
         "name": "Chins",
-        "imgName": "chins.png",
+        "imgName": "chins.jpg",
         "description": "description2",
         "steps": [
             "step1",
@@ -84,7 +84,7 @@
     {
         "id": 22,
         "name": "Barebell Row",
-        "imgName": "barebellRow.png",
+        "imgName": "barebellRow.jpg",
         "description": "description2",
         "steps": [
             "step1",
@@ -101,7 +101,7 @@
     {
         "id": 31,
         "name": "Squat",
-        "imgName": "squat.png",
+        "imgName": "squat.jpg",
         "description": "description2",
         "steps": [
             "step1",
@@ -118,7 +118,7 @@
     {
         "id": 32,
         "name": "Lunges",
-        "imgName": "lunges.png",
+        "imgName": "lunges.jpg",
         "description": "description2",
         "steps": [
             "step1",

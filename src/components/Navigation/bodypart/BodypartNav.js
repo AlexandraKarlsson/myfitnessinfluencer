@@ -4,15 +4,14 @@ import './BodypartNav.css';
 
 const bodypartNav = (props) => {
 
-    const bodypartItems = props.bodypartItems.map((bodypart, index) => {
-            return (
-                <BodypartItem
-                    key={bodypart.id} 
-                    name={bodypart.name}
-                    clicked={bodypart.onclick}/>
-            );
-        }
-    );
+    const bodypartItems = props.bodypartItems.map((bodypart, bodypartIndex) => {
+        return (
+            <BodypartItem
+                key={bodypart.id} 
+                name={bodypart.name}
+                clicked={()=>props.clicked(bodypartIndex)}/>
+        );
+    });
 
     return(
         <nav className="bodypartNav">
