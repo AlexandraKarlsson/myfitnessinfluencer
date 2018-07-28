@@ -70,21 +70,23 @@ class App extends Component {
   }
 
   exerciseHandler = (exerciseIndex, exerciseId) => {
-      const exist = this.state.currentWorkout.find((exercise) => {
-        return (exercise.id === exerciseId)
-      });
+    const exist = this.state.currentWorkout.find((exercise) => {
+      return (exercise.id === exerciseId)
+    });
 
-      if(!exist) {
-        const exerciseSelected = {...this.state.currentExercises[exerciseIndex]};
+    if(!exist) {
+      const exerciseSelected = {...this.state.currentExercises[exerciseIndex]};
 
-        let workoutUpdated = [...this.state.currentWorkout];
-        workoutUpdated.push(exerciseSelected); 
-        this.setState({currentWorkout : workoutUpdated});
-      }
+      let workoutUpdated = [...this.state.currentWorkout];
+      workoutUpdated.push(exerciseSelected); 
+      this.setState({currentWorkout : workoutUpdated});
+    }
   }
 
-  workoutRemoveHandler = () => {
-
+  workoutExerciseRemoveHandler = (exerciseIndex) => {
+    const workoutUpdated = [...this.state.currentWorkout];
+    workoutUpdated.splice(exerciseIndex, 1);
+    this.setState({currentWorkout : workoutUpdated});
   }
 
 
@@ -102,7 +104,8 @@ class App extends Component {
           exerciseItems={this.state.currentExercises}
           onclick={this.exerciseHandler}/>
         <Workout
-          workoutExercises={this.state.currentWorkout}/>
+          workoutExercises={this.state.currentWorkout}
+          onclick={this.workoutExerciseRemoveHandler}/>
       </div>
     );
   }
