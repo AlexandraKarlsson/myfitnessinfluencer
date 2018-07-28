@@ -9,7 +9,7 @@ const bodypartNav = (props) => {
             <BodypartItem
                 key={bodypart.id} 
                 name={bodypart.name}
-                clicked={()=>props.clicked(bodypartIndex)}/>
+                onclick={()=>props.onclick(bodypartIndex, bodypart.id)}/>
         );
     });
 

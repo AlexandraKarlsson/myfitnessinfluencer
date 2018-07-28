@@ -34,8 +34,8 @@ class App extends Component {
     bodyparts : bodyparts,
     currentBodypart : 1,
     exercises : exercises,
-    currentExercises : null,
-    currentWorkout : null
+    currentExercises : [],
+    currentWorkout : []
 
   }
 
@@ -58,8 +58,6 @@ class App extends Component {
   }
 
   bodypartNavHandler = (bodypartIndex) => {
-    console.log('currentBodypart',this.state.currentBodypart);
-    console.log('bodypartIndex',bodypartIndex);
 
     //check if selected bodypart is not the same as currentbodypart
     //change currentExercises to the selected bodypart
@@ -67,16 +65,27 @@ class App extends Component {
 
     if(this.state.currentBodypart !== bodypartId) {
       const currentExercises = this.getExercises(bodypartId);
-      console.log(currentExercises);
       this.setState({currentBodypart : bodypartId, currentExercises : currentExercises});
     }
   }
 
-  exerciseHandler = (exerciseId) => {
+  exerciseHandler = (exerciseIndex, exerciseId) => {
+      const exist = this.state.currentWorkout.find((exercise) => {
+        return (exercise.id === exerciseId)
+      });
 
+      if(!exist) {
+        const exerciseSelected = {...this.state.currentExercises[exerciseIndex]};
+
+        let workoutUpdated = [...this.state.currentWorkout];
+        workoutUpdated.push(exerciseSelected); 
+        this.setState({currentWorkout : workoutUpdated});
+      }
   }
 
+  workoutRemoveHandler = () => {
 
+  }
 
 
   render() {
@@ -85,14 +94,15 @@ class App extends Component {
         <Header/> 
         <MainNav
           mainNavItems={this.state.mainNavItems}
-          clicked={this.mainNavHandler}/>
+          onclick={this.mainNavHandler}/>
         <BodypartNav
           bodypartItems={this.state.bodyparts}
-          clicked={this.bodypartNavHandler}/>
+          onclick={this.bodypartNavHandler}/>
         <Exercises
-          exerciseItems={this.state.currentExercises}/>
+          exerciseItems={this.state.currentExercises}
+          onclick={this.exerciseHandler}/>
         <Workout
-          workoutItems={this.state.workoutItems}/>
+          workoutExercises={this.state.currentWorkout}/>
       </div>
     );
   }

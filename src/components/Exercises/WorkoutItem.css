@@ -1,0 +1,18 @@
+.workoutItemFigure {
+    border:1px solid black;
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.workoutItemImg {
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+}
+
+@media(min-width:600px){
+    .workoutItemFigure {
+      width:25%;
+    }
+  }
