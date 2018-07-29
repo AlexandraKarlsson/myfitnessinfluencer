@@ -5,7 +5,10 @@ const workoutItem = (props) => {
     const image = require('./../../assets/images/' + props.imgName);
 
     return(
-        <figure onClick={props.onclick} className="workoutItemFigure">
+        <figure className="workoutItemFigure">
+            <div onClick={props.onclick} class="workoutItemDivRemove">
+                <p class="workoutItemPRemove">X</p>
+            </div>
             <img className="workoutItemImg" src={image} alt={props.name}/>
             <figcaption className="workoutItemFigcaption">{props.name}</figcaption>
         </figure>
