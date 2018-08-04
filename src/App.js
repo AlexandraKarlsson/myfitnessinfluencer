@@ -89,6 +89,20 @@ class App extends Component {
     this.setState({currentWorkout : workoutUpdated});
   }
 
+  randomWorkoutHandler = () => {
+    console.log("Inside the randomWorkoutHandler!");
+    let workout = [];
+    
+    for(let i=0; i<this.state.bodyparts.length; i++) {
+      const exercises = this.getExercises(i+1);
+      console.log(exercises);
+      const random = Math.floor(Math.random() * exercises.length);
+      console.log(random);
+      workout.push(exercises[random]);
+    }
+    this.setState({currentWorkout : workout});
+  }
+
 
   render() {
     return (
@@ -99,7 +113,8 @@ class App extends Component {
           onclick={this.mainNavHandler}/>
         <BodypartNav
           bodypartItems={this.state.bodyparts}
-          onclick={this.bodypartNavHandler}/>
+          onclick={this.bodypartNavHandler}
+          onclickRandom={this.randomWorkoutHandler}/>
         <Exercises
           exerciseItems={this.state.currentExercises}
           onclick={this.exerciseHandler}/>

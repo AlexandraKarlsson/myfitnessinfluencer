@@ -14,11 +14,15 @@ const bodypartNav = (props) => {
     });
 
     return(
-        <nav className="bodypartNav">
-            <ul className="bodypartUl">
-                {bodypartItems}
-            </ul>
-        </nav>
+        <div>
+            <nav className="bodypartNav">
+                <ul className="bodypartUl">
+                    {bodypartItems}
+                </ul>
+                <button onClick={()=>props.onclickRandom()}>Random</button>
+            </nav>
+            
+        </div>
     );
 }
 

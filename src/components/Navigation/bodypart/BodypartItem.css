@@ -6,6 +6,10 @@
     /*box-shadow: 2px 2px 9px 4px #888888;*/
   }
 
+  .bodypartItemInput {
+    cursor: pointer;
+  }
+
   @media(min-width: 600px) {
     .bodypartLi {
       float:left;
