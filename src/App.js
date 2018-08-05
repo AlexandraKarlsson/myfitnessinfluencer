@@ -31,6 +31,7 @@ class App extends Component {
         name: "Relax"
       }
     ],
+    currentNav : 0,
     bodyparts : bodyparts,
     currentBodypart : 1,
     exercises : exercises,
@@ -51,10 +52,7 @@ class App extends Component {
   }
 
   mainNavHandler = (mainNavItemIndex) => {
-    /*if(this.state.currentBodypart !== bodypartIndex) {
-        const currentExercises = this.state.exercises[bodypartIndex];
-        this.setState({currentBodypart: bodypartIndex, currentExercises: currentExercises})
-    }*/
+    this.setState({currentNav : mainNavItemIndex});
   }
 
   bodypartNavHandler = (bodypartIndex) => {
@@ -104,23 +102,44 @@ class App extends Component {
   }
 
 
+
   render() {
+
+    const pageContent = [];
+    if(this.state.currentNav === 0) {
+      console.log("inside page weights");
+      pageContent.push(      
+        <BodypartNav
+          key={0}
+          bodypartItems={this.state.bodyparts}
+          onclick={this.bodypartNavHandler}
+          onclickRandom={this.randomWorkoutHandler}/>);
+        pageContent.push(
+        <Exercises
+          key={1}
+          exerciseItems={this.state.currentExercises}
+          onclick={this.exerciseHandler}/>);
+        pageContent.push(
+        <Workout
+          key={2}
+          workoutExercises={this.state.currentWorkout}
+          onclick={this.workoutExerciseRemoveHandler}/>);
+    }else if(this.state.currentNav === 1) {
+      console.log("inside page cardio");
+    }else if(this.state.currentNav === 2) {
+      console.log("inside page flex");
+    }else if(this.state.currentNav === 3) {
+      console.log("inside page relax");
+    }
+
+
     return (
       <div className="App">
         <Header/> 
         <MainNav
           mainNavItems={this.state.mainNavItems}
           onclick={this.mainNavHandler}/>
-        <BodypartNav
-          bodypartItems={this.state.bodyparts}
-          onclick={this.bodypartNavHandler}
-          onclickRandom={this.randomWorkoutHandler}/>
-        <Exercises
-          exerciseItems={this.state.currentExercises}
-          onclick={this.exerciseHandler}/>
-        <Workout
-          workoutExercises={this.state.currentWorkout}
-          onclick={this.workoutExerciseRemoveHandler}/>
+        {pageContent}
       </div>
     );
   }

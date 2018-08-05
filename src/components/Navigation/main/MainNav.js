@@ -9,7 +9,7 @@ const mainNav = (props) => {
                 <MainNavItem
                     key={item.id} 
                     name={item.name}
-                    onclick={item.onclick}/>
+                    onclick={() => props.onclick(index)}/>
             );
         }
     );
