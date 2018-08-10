@@ -8,9 +8,6 @@ import Header from './components/Header/Header';
 import Exercises from './components/Exercises/Exercises';
 import Workout from './components/Exercises/Workout';
 
-import bodyparts from './assets/data/bodyparts.json';
-import exercises from './assets/data/exercises.json';
-
 const URL_BASE = 'http://192.168.0.109:3001/';
 const BODYPARTS_PATH = 'bodyparts';
 const EXERCISES_PATH = 'exercises';
