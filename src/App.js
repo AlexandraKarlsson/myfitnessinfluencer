@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import logo from './logo.svg';
 import './reset.css';
 import BodypartNav from './components/Navigation/bodypart/BodypartNav';
@@ -9,6 +10,10 @@ import Workout from './components/Exercises/Workout';
 
 import bodyparts from './assets/data/bodyparts.json';
 import exercises from './assets/data/exercises.json';
+
+const URL_BASE = 'http://192.168.0.109:3001/';
+const BODYPARTS_PATH = 'bodyparts';
+const EXERCISES_PATH = 'exercises';
 
 class App extends Component {
 
@@ -32,21 +37,59 @@ class App extends Component {
       }
     ],
     currentNav : 0,
-    bodyparts : bodyparts,
+    bodyparts : [],
     currentBodypart : 1,
-    exercises : exercises,
+    exercises : [],
     currentExercises : [],
-    currentWorkout : []
-
+    currentWorkout : [],
+    isLoading : false,
+    error : null
   }
 
   constructor(props){
     super(props);
-    this.state.currentExercises = this.getExercises(this.state.currentBodypart);
   }
 
-  getExercises = (bodypartId) => {
-    return this.state.exercises.filter((exerciseItem) => {
+  componentDidMount() {
+    console.log('Enter componentDidMount()');
+  
+    this.setState({ isLoading: true });
+
+    let bodyparts;
+
+    axios.get(URL_BASE + BODYPARTS_PATH)
+      .then(result => {
+        console.log(`callback bodyparts = ${result.data.rows}`);
+
+        bodyparts = result.data.rows;
+
+        axios.get(URL_BASE + EXERCISES_PATH)
+        .then(result => {
+          console.log(`callback exersices = ${result.data.rows}`);
+
+          const currentExercises = this.getExercises(this.state.currentBodypart, result.data.rows);
+          console.log(`callback currentExercises = ${currentExercises}`);
+
+          this.setState({
+            bodyparts: bodyparts,
+            exercises: result.data.rows, 
+            currentExercises : currentExercises,
+            isLoading: false
+          });
+        })
+        .catch(error => this.setState({
+          error,
+          isLoading: false
+        }));
+      })
+      .catch(error => this.setState({
+        error,
+        isLoading: false
+      }));
+  }
+
+  getExercises = (bodypartId, exercises) => {
+    return exercises.filter((exerciseItem) => {
       return exerciseItem.bodypartId === bodypartId;
     });
   }
@@ -62,7 +105,7 @@ class App extends Component {
     const bodypartId = bodypartIndex+1;
 
     if(this.state.currentBodypart !== bodypartId) {
-      const currentExercises = this.getExercises(bodypartId);
+      const currentExercises = this.getExercises(bodypartId, this.state.exercises);
       this.setState({currentBodypart : bodypartId, currentExercises : currentExercises});
     }
   }
@@ -92,7 +135,7 @@ class App extends Component {
     let workout = [];
     
     for(let i=0; i<this.state.bodyparts.length; i++) {
-      const exercises = this.getExercises(i+1);
+      const exercises = this.getExercises(i+1, this.state.exercises);
       console.log(exercises);
       const random = Math.floor(Math.random() * exercises.length);
       console.log(random);
@@ -101,13 +144,13 @@ class App extends Component {
     this.setState({currentWorkout : workout});
   }
 
-
-
   render() {
+    console.log('Enter render()');
+    console.log( `exercises = ${this.state.exercises}`);
+    console.log( `currentExercises = ${this.state.currentExercises}`);
 
     const pageContent = [];
     if(this.state.currentNav === 0) {
-      console.log("inside page weights");
       pageContent.push(      
         <BodypartNav
           key={0}
@@ -132,7 +175,17 @@ class App extends Component {
       console.log("inside page relax");
     }
 
+    const { isLoading, error } = this.state;
 
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+
+    if (isLoading) {
+      return <p>Loading ...</p>;
+    }
+
+    console.log('Return render()');
     return (
       <div className="App">
         <Header/> 
