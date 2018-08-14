@@ -34,6 +34,10 @@ class App extends Component {
       }
     ],
     currentNav : 0,
+    loggedIn : false,
+    user : null,
+    username: '',
+    password: '',
     bodyparts : [],
     currentBodypart : 1,
     exercises : [],
@@ -47,48 +51,64 @@ class App extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    console.log('Enter componentDidMount()');
+  async componentDidMount() {
   
     this.setState({ isLoading: true });
 
-    let bodyparts;
+    try {
+      const bodyparts = await axios.get(URL_BASE + BODYPARTS_PATH);
+      const exercises = await axios.get(URL_BASE + EXERCISES_PATH);
+      //console.log(`callback bodyparts = ${bodyparts.data.rows}`);
+      //console.log(`callback exersices = ${exercises.data.rows}`);
 
-    axios.get(URL_BASE + BODYPARTS_PATH)
-      .then(result => {
-        console.log(`callback bodyparts = ${result.data.rows}`);
+      const currentExercises = this.getExercises(this.state.currentBodypart, exercises.data.rows);
+      //console.log(`callback currentExercises = ${currentExercises}`);
 
-        bodyparts = result.data.rows;
+      this.setState({
+        bodyparts: bodyparts.data.rows,
+        exercises: exercises.data.rows, 
+        currentExercises : currentExercises,
+        isLoading: false
+      });
 
-        axios.get(URL_BASE + EXERCISES_PATH)
-        .then(result => {
-          console.log(`callback exersices = ${result.data.rows}`);
-
-          const currentExercises = this.getExercises(this.state.currentBodypart, result.data.rows);
-          console.log(`callback currentExercises = ${currentExercises}`);
-
-          this.setState({
-            bodyparts: bodyparts,
-            exercises: result.data.rows, 
-            currentExercises : currentExercises,
-            isLoading: false
-          });
-        })
-        .catch(error => this.setState({
-          error,
-          isLoading: false
-        }));
-      })
-      .catch(error => this.setState({
+    }catch(error) {
+      this.setState({
         error,
         isLoading: false
-      }));
+      });
+    }
   }
 
   getExercises = (bodypartId, exercises) => {
     return exercises.filter((exerciseItem) => {
       return exerciseItem.bodypartId === bodypartId;
     });
+  }
+
+  loginOnChangeHandler = (event) => {
+
+    if(event.target.name === 'username') {
+      this.setState({
+        username: event.target.value
+      });
+    } else {
+      this.setState({
+        password: event.target.value
+      });
+    }
+  }
+
+  loginHandler = (event) => {
+    console.log('Username=' , this.state.username , 'password=', this.state.password);
+    this.setState({loggedIn : true});
+    event.preventDefault();
+  }
+
+  logoutHandler = (userName) => {
+    console.log('User' , userName , 'logged out!');
+    this.setState({user : null, 
+                   loggedIn : false
+                  });
   }
 
   mainNavHandler = (mainNavItemIndex) => {
@@ -185,7 +205,12 @@ class App extends Component {
     console.log('Return render()');
     return (
       <div className="App">
-        <Header/> 
+        <Header
+          loggedIn={this.state.loggedIn}
+          user={this.state.user}
+          onchange={this.loginOnChangeHandler}
+          onclickLogin={this.loginHandler} 
+          onclickLogout={this.logoutHandler}/> 
         <MainNav
           mainNavItems={this.state.mainNavItems}
           onclick={this.mainNavHandler}/>
