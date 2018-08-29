@@ -4,7 +4,7 @@ import './MainNavItem.css';
 const mainNavItem = (props) => {
     return(
         <li className="mainNavLi">
-            <input type="button" className="mainNavA" onClick={props.onclick} value={props.name}/>
+            <input type="button" className="mainNavInput" onClick={props.onclick} value={props.name}/>
         </li>
     );
 }

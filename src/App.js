@@ -5,12 +5,16 @@ import './reset.css';
 import BodypartNav from './components/Navigation/bodypart/BodypartNav';
 import MainNav from './components/Navigation/main/MainNav';
 import Header from './components/Header/Header';
+import Registration from './components/Register/Registration';
 import Exercises from './components/Exercises/Exercises';
 import Workout from './components/Exercises/Workout';
 
-const URL_BASE = 'http://192.168.0.109:3001/';
+const URL_BASE = 'http://192.168.0.109:3000/';
 const BODYPARTS_PATH = 'bodyparts';
 const EXERCISES_PATH = 'exercises';
+const REGISTER_PATH = 'users';
+const LOGIN_PATH = 'users/login';
+const LOGOUT_PATH = 'users/me/token'
 
 class App extends Component {
 
@@ -34,10 +38,14 @@ class App extends Component {
       }
     ],
     currentNav : 0,
+    register : false,
+    registerMessage : '',
     loggedIn : false,
     user : null,
+    token : null,
     username: '',
     password: '',
+    email: '',
     bodyparts : [],
     currentBodypart : 1,
     exercises : [],
@@ -85,6 +93,69 @@ class App extends Component {
     });
   }
 
+  userPreRegisterHandler = () => {
+      this.setState({register: true});
+
+  }
+
+  registerOnChangeHandler = (event) => {
+
+    if(event.target.name === 'username') {
+      this.setState({
+        username: event.target.value
+      });
+    } else if(event.target.name === 'password') {
+      this.setState({
+        password: event.target.value
+      });
+    } else {
+      this.setState({
+        email: event.target.value
+      });
+    }
+  }
+
+  userPostRegisterHandler = async (event) => {
+      //call the web service 
+      console.log('Executing userPostRegisterHandler');
+      event.preventDefault();
+
+      this.setState({ isLoading: true });
+      const username = this.state.username;
+      const password = this.state.password;
+      const email = this.state.email;
+
+      try {
+        const register = await axios.post(URL_BASE + REGISTER_PATH, {username, password, email});
+        // console.log(register);
+        alert('User successfully created!');
+        this.setState({
+          register: false,
+          registerMessage: 'User successfully created!',
+          isLoading: false
+        });
+  
+      }catch(error) {
+        // console.log('Error =' , error);
+        //TODO: show message for the user
+        alert('User already exists!');
+        this.setState({
+          register: false,
+          registerMessage: 'User already exists!',
+          isLoading: false
+        });
+      }
+  }
+
+  userRegisterCancelHandler = () => {
+    this.setState({
+      username: '',
+      password: '',
+      email: '',
+      register: false
+    });
+  }
+
   loginOnChangeHandler = (event) => {
 
     if(event.target.name === 'username') {
@@ -98,17 +169,59 @@ class App extends Component {
     }
   }
 
-  loginHandler = (event) => {
-    console.log('Username=' , this.state.username , 'password=', this.state.password);
-    this.setState({loggedIn : true});
+  loginHandler = async (event) => {
     event.preventDefault();
+    this.setState({isLoading:true});
+
+    const username = this.state.username;
+    const password = this.state.password;
+    console.log('Username=' , username , 'password=', password);
+
+    try {
+      const result = await axios.post(URL_BASE + LOGIN_PATH, {username, password});
+      console.log(result);
+      const user = result.data.user;
+      console.log(user);
+      const token = result.headers['x-auth'];
+      console.log(token);
+    
+      this.setState({
+        isLoading : false,
+        loggedIn : true,
+        user,
+        token
+      });
+    }catch(error) {
+      console.log(error);
+      alert('Unable to login');
+      this.setState({
+        isLoading: false
+      });
+    }
   }
 
-  logoutHandler = (userName) => {
-    console.log('User' , userName , 'logged out!');
-    this.setState({user : null, 
-                   loggedIn : false
-                  });
+  logoutHandler = async (userName) => {
+    this.setState({isLoading:true});
+
+    try {
+      const token = this.state.token;
+      const result = await axios.delete(URL_BASE + LOGOUT_PATH, { headers: { 'x-auth': `${token}` } });
+      console.log(result);
+
+      this.setState({
+        isLoading: false,
+        loggedIn : false,
+        user : null,
+        token : null
+      });
+    }catch(error) {
+      console.log(error);
+      this.setState({isLoading:false});
+    }
+  }
+
+  toggleNavHandler = (navItems) => {
+
   }
 
   mainNavHandler = (mainNavItemIndex) => {
@@ -148,14 +261,11 @@ class App extends Component {
   }
 
   randomWorkoutHandler = () => {
-    console.log("Inside the randomWorkoutHandler!");
     let workout = [];
     
     for(let i=0; i<this.state.bodyparts.length; i++) {
-      const exercises = this.getExercises(i+1, this.state.exercises);
-      console.log(exercises);
+      const exercises = this.getExercises(i+1, this.state.exercises);  
       const random = Math.floor(Math.random() * exercises.length);
-      console.log(random);
       workout.push(exercises[random]);
     }
     this.setState({currentWorkout : workout});
@@ -163,33 +273,44 @@ class App extends Component {
 
   render() {
     console.log('Enter render()');
-    console.log( `exercises = ${this.state.exercises}`);
-    console.log( `currentExercises = ${this.state.currentExercises}`);
 
     const pageContent = [];
-    if(this.state.currentNav === 0) {
-      pageContent.push(      
-        <BodypartNav
-          key={0}
-          bodypartItems={this.state.bodyparts}
-          onclick={this.bodypartNavHandler}
-          onclickRandom={this.randomWorkoutHandler}/>);
-        pageContent.push(
-        <Exercises
-          key={1}
-          exerciseItems={this.state.currentExercises}
-          onclick={this.exerciseHandler}/>);
-        pageContent.push(
-        <Workout
-          key={2}
-          workoutExercises={this.state.currentWorkout}
-          onclick={this.workoutExerciseRemoveHandler}/>);
-    }else if(this.state.currentNav === 1) {
-      console.log("inside page cardio");
-    }else if(this.state.currentNav === 2) {
-      console.log("inside page flex");
-    }else if(this.state.currentNav === 3) {
-      console.log("inside page relax");
+    if(this.state.register) {
+      pageContent.push(
+        <Registration
+          username={this.state.username}
+          password={this.state.password}
+          email={this.state.email}
+          message={this.state.registerMessage}
+          onchange={this.registerOnChangeHandler}
+          onsubmitUserRegister={this.userPostRegisterHandler}
+          onclickCancel={this.userRegisterCancelHandler}/>
+      );
+    } else {
+      if(this.state.currentNav === 0) {
+        pageContent.push(      
+          <BodypartNav
+            key={0}
+            bodypartItems={this.state.bodyparts}
+            onclick={this.bodypartNavHandler}
+            onclickRandom={this.randomWorkoutHandler}/>);
+          pageContent.push(
+          <Exercises
+            key={1}
+            exerciseItems={this.state.currentExercises}
+            onclick={this.exerciseHandler}/>);
+          pageContent.push(
+          <Workout
+            key={2}
+            workoutExercises={this.state.currentWorkout}
+            onclick={this.workoutExerciseRemoveHandler}/>);
+      }else if(this.state.currentNav === 1) {
+        console.log("inside page cardio");
+      }else if(this.state.currentNav === 2) {
+        console.log("inside page flex");
+      }else if(this.state.currentNav === 3) {
+        console.log("inside page relax");
+      }
     }
 
     const { isLoading, error } = this.state;
@@ -210,7 +331,8 @@ class App extends Component {
           user={this.state.user}
           onchange={this.loginOnChangeHandler}
           onclickLogin={this.loginHandler} 
-          onclickLogout={this.logoutHandler}/> 
+          onclickLogout={this.logoutHandler}
+          onclickRegister={this.userPreRegisterHandler}/> 
         <MainNav
           mainNavItems={this.state.mainNavItems}
           onclick={this.mainNavHandler}/>

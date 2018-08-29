@@ -17,7 +17,8 @@ const header = (props) => {
                 user={props.user}
                 onchange={props.onchange}
                 onclickLogin={props.onclickLogin}
-                onclickLogout={props.onclickLogout}/>
+                onclickLogout={props.onclickLogout}
+                onclickRegister={props.onclickRegister}/>
 
 
             <button><img src="" alt="Menu" onClick={props.onclick}/></button>

@@ -1,16 +1,21 @@
-.mainNavA {
-    text-decoration: none;
-  }
+
   
   .mainNavLi {
-    border: 1px solid black;
-    margin: 8px;
-    padding: 10px;
-    /*box-shadow: 2px 2px 9px 4px #888888;*/
+    clear: both;
+    width: 100%;
+    margin: 0 auto;
+    float: right;
+    border: 1px solid black;    
+  }
+
+  .mainNavInput {
+    width: 100%;    
   }
 
   @media(min-width: 600px) {
     .mainNavLi {
-      float:left;
+      width: 20%;
+      margin: 0;
+      float: right;
     }
   }
