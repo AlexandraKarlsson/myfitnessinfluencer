@@ -1,21 +1,13 @@
 
+.mainNavItemInput {
+    cursor: pointer;
+    width: 100%; 
+}
   
-  .mainNavLi {
-    clear: both;
-    width: 100%;
-    margin: 0 auto;
-    float: right;
-    border: 1px solid black;    
-  }
+.mainNavItemSelected {
+background-color: yellow;
+}
 
-  .mainNavInput {
-    width: 100%;    
-  }
-
-  @media(min-width: 600px) {
-    .mainNavLi {
-      width: 20%;
-      margin: 0;
-      float: right;
-    }
-  }
+  
+  
+  

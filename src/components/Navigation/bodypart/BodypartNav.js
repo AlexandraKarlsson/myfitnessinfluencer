@@ -7,8 +7,10 @@ const bodypartNav = (props) => {
     const bodypartItems = props.bodypartItems.map((bodypart, bodypartIndex) => {
         return (
             <BodypartItem
-                key={bodypart.id} 
+                key={bodypart.id}
+                id={bodypart.id}
                 name={bodypart.name}
+                currentBodypart={props.currentBodypart}
                 onclick={()=>props.onclick(bodypartIndex, bodypart.id)}/>
         );
     });

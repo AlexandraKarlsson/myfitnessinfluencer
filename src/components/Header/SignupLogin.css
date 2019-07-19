@@ -1,0 +1,25 @@
+#signupLogin_Container {
+    display: grid;
+    grid-row-gap: 5px; 
+  }
+  
+  #signupLogin_Username {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  #signupLogin_Password {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  #signupLogin_MemberMe {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  
+  #signupLogin_Login {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  

@@ -1,0 +1,9 @@
+@media (min-width: 500px) {
+  
+    #header_Container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+}

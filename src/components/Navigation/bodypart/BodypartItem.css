@@ -8,6 +8,11 @@
 
   .bodypartItemInput {
     cursor: pointer;
+    width: 100%; 
+  }
+
+  .bodypartItemInputSelected {
+    background-color: aqua;
   }
 
   @media(min-width: 600px) {

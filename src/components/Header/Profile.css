@@ -1,0 +1,30 @@
+#profile_Container {
+    display: grid;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+    max-width: 15em;
+    margin: 0 auto;
+  }
+  
+  #profile_Image {
+    height: 6em;
+    width: 6em;
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+  }
+  
+  #profile_Settings {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  
+  #profile_Logout {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  
+  #profile_Username {
+    grid-column: 1 / span 3;
+    grid-row: 3;
+  }
+  

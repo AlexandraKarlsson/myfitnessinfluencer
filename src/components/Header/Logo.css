@@ -1,0 +1,13 @@
+#logo_Container {
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+}
+  
+#logo_Image {
+    width : 6em;
+}
+
+#logo_Name {
+    font-size : 2rem;
+}

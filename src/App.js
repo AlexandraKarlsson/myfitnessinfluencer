@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import logo from './logo.svg';
 import './reset.css';
+import './App.css';
 import BodypartNav from './components/Navigation/bodypart/BodypartNav';
-import MainNav from './components/Navigation/main/MainNav';
+//import MainNav from './components/Navigation/main/MainNav';
+import MainNav2 from './components/Navigation/main/MainNav';
 import Header from './components/Header/Header';
 import Registration from './components/Register/Registration';
 import Exercises from './components/Exercises/Exercises';
 import Workout from './components/Exercises/Workout';
 
-const URL_BASE = 'http://192.168.0.109:3000/';
+
+const URL_BASE = 'http://192.168.0.176:3002/';
 const BODYPARTS_PATH = 'bodyparts';
 const EXERCISES_PATH = 'exercises';
 const REGISTER_PATH = 'users';
@@ -37,10 +40,11 @@ class App extends Component {
         name: "Relax"
       }
     ],
-    currentNav : 0,
-    register : false,
+    mainNavHidden: false,
+    currentMainNav : 0,
+    //register : false,
     registerMessage : '',
-    loggedIn : false,
+    loggedIn : false, //changed from false during development
     user : null,
     token : null,
     username: '',
@@ -60,6 +64,8 @@ class App extends Component {
   }
 
   async componentDidMount() {
+
+    
   
     this.setState({ isLoading: true });
 
@@ -85,6 +91,7 @@ class App extends Component {
         isLoading: false
       });
     }
+    
   }
 
   getExercises = (bodypartId, exercises) => {
@@ -93,6 +100,7 @@ class App extends Component {
     });
   }
 
+  /*
   userPreRegisterHandler = () => {
       this.setState({register: true});
 
@@ -147,6 +155,8 @@ class App extends Component {
       }
   }
 
+
+
   userRegisterCancelHandler = () => {
     this.setState({
       username: '',
@@ -155,7 +165,56 @@ class App extends Component {
       register: false
     });
   }
+  */
 
+  userRegisterHandler = async (event) => {
+    //call the web service 
+    console.log('Executing userRegisterHandler');
+    event.preventDefault();
+
+    this.setState({ isLoading: true });
+    const username = this.state.username;
+    const password = this.state.password;
+    console.log('Username:  ' + username);
+    console.log('password:  ' + password);
+    const email = 'alexa@gmail.com';
+
+    try {
+      const register = await axios.post(URL_BASE + REGISTER_PATH, {username, password, email});
+      // console.log(register);
+      alert('User successfully created!');
+      this.setState({
+        //register: false,
+        registerMessage: 'User successfully created!',
+        isLoading: false
+      });
+
+    }catch(error) {
+      // console.log('Error =' , error);
+      //TODO: show message for the user
+      alert('User already exists!');
+      this.setState({
+        //register: false,
+        registerMessage: 'User already exists!',
+        isLoading: false
+      });
+    }
+  }
+
+  userOnChangeHandler = (event) => {
+
+    if(event.target.name === 'username') {
+      this.setState({
+        username: event.target.value
+      });
+    } else {
+      this.setState({
+        password: event.target.value
+      });
+    }
+  }
+
+  /*
   loginOnChangeHandler = (event) => {
 
     if(event.target.name === 'username') {
@@ -168,6 +227,7 @@ class App extends Component {
       });
     }
   }
+  */
 
   loginHandler = async (event) => {
     event.preventDefault();
@@ -220,12 +280,15 @@ class App extends Component {
     }
   }
 
-  toggleNavHandler = (navItems) => {
-
+  toggleMainNavHandler = () => {
+    console.log('Inside toggleMainNavHandler ' + this.state.mainNavHidden)
+    const hidden = this.state.mainNavHidden ? false : true
+    this.setState({mainNavHidden : hidden})
   }
 
   mainNavHandler = (mainNavItemIndex) => {
-    this.setState({currentNav : mainNavItemIndex});
+    console.log('Inside mainNavHandler ' + this.state.currentMainNav + ' ' + mainNavItemIndex)
+    this.setState({currentMainNav : mainNavItemIndex});
   }
 
   bodypartNavHandler = (bodypartIndex) => {
@@ -275,6 +338,8 @@ class App extends Component {
     console.log('Enter render()');
 
     const pageContent = [];
+
+    /*
     if(this.state.register) {
       pageContent.push(
         <Registration
@@ -287,11 +352,13 @@ class App extends Component {
           onclickCancel={this.userRegisterCancelHandler}/>
       );
     } else {
-      if(this.state.currentNav === 0) {
+      */
+      if(this.state.currentMainNav === 0) {
         pageContent.push(      
           <BodypartNav
             key={0}
             bodypartItems={this.state.bodyparts}
+            currentBodypart={this.state.currentBodypart}
             onclick={this.bodypartNavHandler}
             onclickRandom={this.randomWorkoutHandler}/>);
           pageContent.push(
@@ -304,14 +371,14 @@ class App extends Component {
             key={2}
             workoutExercises={this.state.currentWorkout}
             onclick={this.workoutExerciseRemoveHandler}/>);
-      }else if(this.state.currentNav === 1) {
+      }else if(this.state.currentMainNav === 1) {
         console.log("inside page cardio");
-      }else if(this.state.currentNav === 2) {
+      }else if(this.state.currentMainNav === 2) {
         console.log("inside page flex");
-      }else if(this.state.currentNav === 3) {
+      }else if(this.state.currentMainNav === 3) {
         console.log("inside page relax");
       }
-    }
+    //}
 
     const { isLoading, error } = this.state;
 
@@ -329,13 +396,16 @@ class App extends Component {
         <Header
           loggedIn={this.state.loggedIn}
           user={this.state.user}
-          onchange={this.loginOnChangeHandler}
+          onchange={this.userOnChangeHandler}
           onclickLogin={this.loginHandler} 
           onclickLogout={this.logoutHandler}
-          onclickRegister={this.userPreRegisterHandler}/> 
-        <MainNav
+          onclickRegister={this.userRegisterHandler}/> 
+        <MainNav2
+          mainNavHidden={this.state.mainNavHidden}
+          currentMainNavItem={this.state.currentMainNav}
           mainNavItems={this.state.mainNavItems}
-          onclick={this.mainNavHandler}/>
+          onclick={this.mainNavHandler}
+          toggleMainNav={this.toggleMainNavHandler}/>
         {pageContent}
       </div>
     );

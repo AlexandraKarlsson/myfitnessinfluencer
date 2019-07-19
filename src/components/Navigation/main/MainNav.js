@@ -1,41 +1,41 @@
-import React from 'react';
-import MainNavItem from './MainNavItem';
-import './MainNav.css';
-
-const toggleNav = () => {
-        console.log("Executing toggleNav");
-
-        var mainNavUl = document.querySelector('.mainNavUl');
-        console.log(mainNavUl);
-        if(mainNavUl.classList.contains('hidden') === true) {
-            mainNavUl.classList.remove('hidden');
-        } else {
-            mainNavUl.classList.add('hidden');
-        }
-};
+import React from 'react'
+import MainNavItem from './MainNavItem'
+import './MainNav.css'
 
 const mainNav = (props) => {
 
-    const mainNavItems = props.mainNavItems.map((item, index) => {
-            return (
-                <MainNavItem
-                    key={item.id} 
-                    name={item.name}
-                    onclick={() => props.onclick(index)}/>
-            );
-        }
-    );
+    let class_name = "mainNav_ItemContainer"
+    if(props.mainNavHidden === true) {
+        class_name = class_name + " mainNav_ItemContainerHidden"
+    }
 
+    
 
+    const mainNavItems = props.mainNavItems.map( (menuItem, menuItemIndex) => {
+        return(
+            <MainNavItem
+                key={menuItem.id}
+                id={menuItem.id}
+                name={menuItem.name}
+                currentMainNavItem={props.currentMainNavItem}
+                onclick={()=>props.onclick(menuItemIndex)}/>
+        )
+    })
 
     return(
-        <div className="mainNav">
-            <input type="button" onClick={toggleNav} className="mainNavButton" value="&#9776;"/>
-            <ul className="mainNavUl hidden">
-                {mainNavItems}
-            </ul>
+        <div>
+            <div className="mainNav_MenuContainer">
+                <button onClick={props.toggleMainNav}>MENU</button>
+                <p>{props.mainNavItems[props.currentMainNavItem].name}</p>
+            </div>
+
+            <nav className={class_name}>
+                <ol>
+                    {mainNavItems}
+                </ol>
+            </nav>
         </div>
-    );
+    )
 }
 
-export default mainNav;
+export default mainNav
