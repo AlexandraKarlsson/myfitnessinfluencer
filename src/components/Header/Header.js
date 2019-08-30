@@ -6,25 +6,27 @@ import './Header.css'
 
 const header = (props) => {
 
-    const headerContent = []
-    headerContent.push(<Logo/>)
+    let profileOrSignUpLogin
+    //TODO: check why profile dosent show when logged in
+
     if(props.loggedIn) {
-        headerContent.push(
+        profileOrSignUpLogin = 
             <Profile
-                user={props.user.username}
+                username={props.user.username}
                 onclickSettings={props.onclickSettings}
-                onclickLogout={props.onclickLogout}/>)
+                onclickLogout={props.onclickLogout}/>
     } else {
-        headerContent.push(
+        profileOrSignUpLogin = 
             <SignupLogin
                 onchange={props.onchange}
                 onclickLogin={props.onclickLogin}
-                onclickRegister={props.onclickRegister}/>)
+                onclickRegister={props.onclickRegister}/>
     }
     
     return(
         <header id="header_Container">
-            {headerContent}
+            <Logo/>
+            {profileOrSignUpLogin}
         </header>
     );
 }

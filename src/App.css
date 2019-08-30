@@ -42,3 +42,18 @@ body {
   max-width: 1000px;
   margin: 0 auto;
 }
+
+.exerciseWorkout_Container {
+  display: grid;
+  grid-column-gap : 5px;
+  justify-items: center;
+}
+
+.exercise_Container {
+  grid-column-start: 1;
+}
+
+.workout_Container {
+  grid-column-start: 2;
+}
+
